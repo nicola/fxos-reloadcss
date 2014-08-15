@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/nicola/moz-reloadcss-b2g/issues"
   },
-  "homepage": "https://github.com/nicola/moz-reloadcss-b2g"
+  "homepage": "https://github.com/nicola/moz-reloadcss-b2g",
+  "dependencies": {
+    "firefox-client": "^0.2.0",
+    "moz-start-b2g": "0.0.6",
+    "q": "^1.0.1"
+  }
 }

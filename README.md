@@ -15,14 +15,15 @@ var reloadcssB2G = require('moz-reloadcss-b2g');
 
 reloadcssB2G('webapp.manifest', function(err, result) {
   console.log('done!');
-})
-
-reloadcssB2G({
-    manifestURL: 'webapp.manifest',
-    port:8004
-  }, function(err, result) {
-    console.log('done!');
-  });
+});
 
 reloadcssB2G('webapp.manifest').then(nextPromise);
+
+reloadcssB2G({
+  manifestURL: 'webapp.manifest',
+  port:8004
+}, function(err, result) {
+  console.log('done!');
+});
+
 ```
