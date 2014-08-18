@@ -29,8 +29,9 @@ function reloadcssB2G () {
     callback = args[args.length-1];
   }
 
-  return startB2G(opts)
+  var reloaded =  startB2G(opts)
     .then(function(client) {
+      opts.client = client;
 
       var manifest = getManifest(opts.manifestURL);
       var webapps = getWebapps(client);
@@ -49,6 +50,13 @@ function reloadcssB2G () {
 
         });
     });
+
+    return reloaded
+      .then(function(styles) {
+        opts.client.disconnect();
+        if (callback) callback(null, styles);
+        return styles;
+      });
 }
 
 function updateStyleSheet (localManifest) {
