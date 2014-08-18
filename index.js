@@ -1,5 +1,5 @@
 var Q = require('q');
-var startB2G = require('moz-start-b2g');
+var findAppB2G = require('moz-findapp-b2g');
 var FirefoxClient = require('firefox-client');
 var fs = require('fs');
 var REMOTE_PATH = /app:\/\/[^\/]*\/(.*\.css)/;
@@ -29,34 +29,16 @@ function reloadcssB2G () {
     callback = args[args.length-1];
   }
 
-  var reloaded =  startB2G(opts)
-    .then(function(client) {
-      opts.client = client;
-
-      var manifest = getManifest(opts.manifestURL);
-      var webapps = getWebapps(client);
-      var apps = webapps.then(getInstalledApps);
-
-      return Q.all([manifest, apps])
-        .spread(findApp)
-        .then(function(app) {
-
-          return webapps.then(getApp(app.manifestURL))
-            .then(getStyleSheets)
-            .then(function(styles) {
-              var promises = styles.map(updateStyleSheet(opts.manifestURL));
-              return Q.all(promises);
-            });
-
-        });
+  return findAppB2G(opts)
+    .then(getStyleSheets)
+    .then(function(styles) {
+      var promises = styles.map(updateStyleSheet(opts.manifestURL));
+      return Q.all(promises);
+    })
+    .then(function(styles) {
+      if (callback) callback(null, styles);
+      return styles;
     });
-
-    return reloaded
-      .then(function(styles) {
-        opts.client.disconnect();
-        if (callback) callback(null, styles);
-        return styles;
-      });
 }
 
 function updateStyleSheet (localManifest) {
@@ -81,43 +63,13 @@ function getStyleSheets(actor) {
   return Q.ninvoke(styleSheets, 'getStyleSheets');
 }
 
-function getApp (manifestURL) {
-  return function(webapps) {
-    return Q.ninvoke(webapps, 'getApp', manifestURL);
-  };
-}
-
-function getWebapps(client) {
-  return Q.ninvoke(client, 'getWebapps');
-}
-
-function getInstalledApps(webapps) {
-  return Q.ninvoke(webapps, 'getInstalledApps');
-}
-
-function getManifest(manifestURL) {
-  return Q.nfcall(fs.readFile, manifestURL, 'utf8')
-    .then(function(file) {
-      return JSON.parse(file);
-    });
-}
-
-function findApp(manifest, apps) {
-  for (var i=0; i < apps.length; i++) {
-    var app = apps[i];
-    if (app.name == manifest.name) {
-      return app;
-    }
-  }
-  throw new Error("App not found");
-}
-
 if (require.main === module) {
   (function() {
 
     reloadcssB2G('/Users/mozilla/Desktop/nicola/manifest.webapp', function(err, result){
       console.log("Connected and disconnected", result);
-    });
+    })
+    .done();
 
   })();
 }

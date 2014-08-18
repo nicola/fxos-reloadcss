@@ -18,6 +18,7 @@
   "homepage": "https://github.com/nicola/moz-reloadcss-b2g",
   "dependencies": {
     "firefox-client": "^0.2.0",
+    "moz-findapp-b2g": "0.0.2",
     "moz-start-b2g": "0.0.7",
     "q": "^1.0.1"
   }
