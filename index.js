@@ -2,6 +2,8 @@ var Q = require('q');
 var startB2G = require('moz-start-b2g');
 var FirefoxClient = require('firefox-client');
 var fs = require('fs');
+var REMOTE_PATH = /app:\/\/[^\/]*\/(.*\.css)/;
+var path = require('path');
 
 module.exports = reloadcssB2G;
 
@@ -31,22 +33,58 @@ function reloadcssB2G () {
     .then(function(client) {
 
       var manifest = getManifest(opts.manifestURL);
-      var apps = getWebapps(client);
+      var webapps = getWebapps(client);
+      var apps = webapps.then(getInstalledApps);
 
-      Q.all([manifest, apps])
+      return Q.all([manifest, apps])
         .spread(findApp)
         .then(function(app) {
-          console.log("found app", app)
-        })
-        .done();
+
+          return webapps.then(getApp(app.manifestURL))
+            .then(getStyleSheets)
+            .then(function(styles) {
+              var promises = styles.map(updateStyleSheet(opts.manifestURL));
+              return Q.all(promises);
+            });
+
+        });
     });
 }
 
+function updateStyleSheet (localManifest) {
+  return function(style) {
+    var localPath = path.dirname(localManifest);
+    var localStyle = path.join(localPath, getLocalPath(style));
+
+    return Q.nfcall(fs.readFile, localStyle, 'utf8')
+      .then(function(file) {
+        return Q.ninvoke(style, 'update', file);
+      });
+  };
+}
+
+function getLocalPath(styleActor) {
+  var matches = REMOTE_PATH.exec(styleActor.sheet.href);
+  return matches[1];
+}
+
+function getStyleSheets(actor) {
+  var styleSheets = actor.StyleSheets;
+  return Q.ninvoke(styleSheets, 'getStyleSheets');
+}
+
+function getApp (manifestURL) {
+  return function(webapps) {
+    return Q.ninvoke(webapps, 'getApp', manifestURL);
+  };
+}
+
 function getWebapps(client) {
-  return Q.ninvoke(client, 'getWebapps')
-    .then(function(webapps) {
-      return Q.ninvoke(webapps, 'getInstalledApps');
-    });
+  return Q.ninvoke(client, 'getWebapps');
+}
+
+function getInstalledApps(webapps) {
+  return Q.ninvoke(webapps, 'getInstalledApps');
 }
 
 function getManifest(manifestURL) {
@@ -61,7 +99,6 @@ function findApp(manifest, apps) {
     var app = apps[i];
     if (app.name == manifest.name) {
       return app;
-      break;
     }
   }
   throw new Error("App not found");
