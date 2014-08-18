@@ -1,6 +1,6 @@
 {
   "name": "moz-reloadcss-b2g",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Live-reload CSS in a FirefoxOS simulator, without reloading the app",
   "main": "index.js",
   "scripts": {
