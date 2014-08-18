@@ -115,41 +115,9 @@ function findApp(manifest, apps) {
 if (require.main === module) {
   (function() {
 
-    reloadcssB2G('/Users/mozilla/Desktop/nicola/manifest.webapp', function(err, client){
-      console.log("Connected and disconnected");
+    reloadcssB2G('/Users/mozilla/Desktop/nicola/manifest.webapp', function(err, result){
+      console.log("Connected and disconnected", result);
     });
 
   })();
 }
-
-/*
-
- webappsActor = self.root['webappsActor']
-        res = self.client.send({
-            'to': webappsActor,
-            'type': 'getAppActor',
-            'manifestURL': self.selected_app['manifestURL']
-        })
-
-        styleSheetsActor = res['actor']['styleSheetsActor']
-        res = self.client.send({
-            'to': styleSheetsActor,
-            'type': 'getStyleSheets'
-        })
-
-        # TODO upload all css always? this should be a setting
-        for styleSheet in res['styleSheets']:
-            base_path = self.selected_app['local_path']
-            manifest_path = self.selected_app['origin']
-            css_path = styleSheet['href']
-            css_file = base_path + css_path.replace(manifest_path, '')
-            f = open(css_file, 'r')
-
-            self.client.send({
-                'to': styleSheet['actor'],
-                'type': 'update',
-                'text': f.read(),
-                'transition': True
-            })
-
-*/
