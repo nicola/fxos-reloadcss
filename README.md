@@ -13,14 +13,14 @@ $ npm install moz-reloadcss-b2g
 ```javascript
 var reloadcssB2G = require('moz-reloadcss-b2g');
 
-reloadcssB2G('webapp.manifest', function(err, result) {
+reloadcssB2G('manifest.webapp', function(err, result) {
   console.log('done!');
 });
 
-reloadcssB2G('webapp.manifest').then(nextPromise);
+reloadcssB2G('manifest.webapp').then(nextPromise);
 
 reloadcssB2G({
-  manifestURL: 'webapp.manifest',
+  manifestURL: 'manifest.webapp',
   port:8004
 }, function(err, result) {
   console.log('done!');
