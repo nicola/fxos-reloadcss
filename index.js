@@ -69,7 +69,6 @@ if (require.main === module) {
     reloadcssB2G('/Users/mozilla/Desktop/nicola/manifest.webapp', function(err, result){
       console.log("Connected and disconnected", result);
     })
-    .done();
 
   })();
 }
