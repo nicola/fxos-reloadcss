@@ -1,35 +1,35 @@
 var Q = require('q');
-var findAppB2G = require('moz-findapp-b2g');
+var findApp = require('fxos-findapp');
 var FirefoxClient = require('firefox-client');
 var fs = require('fs');
 var REMOTE_PATH = /app:\/\/[^\/]*\/(.*\.css)/;
 var path = require('path');
 
-module.exports = reloadcssB2G;
+module.exports = reloadcss;
 
-function reloadcssB2G () {
+function reloadcss () {
   var args = arguments;
   var opts = {};
   var callback;
 
-  // reloadcssB2G(manifestURL [, client])
+  // reloadcss(manifestURL [, client])
   if (typeof args[0] == 'string') {
     opts.manifestURL = args[0];
     if (args[1] instanceof FirefoxClient) {
       opts.client = args[1];
     }
   }
-  // reloadcssB2G({manifestURL: manifest_path[, client: firefox_client]})
+  // reloadcss({manifestURL: manifest_path[, client: firefox_client]})
   else if (typeof args[0] == 'object') {
     opts = args[0];
   }
 
-  // reloadcssB2G(..., callback)
+  // reloadcss(..., callback)
   if (typeof args[args.length-1] == 'function') {
     callback = args[args.length-1];
   }
 
-  return findAppB2G(opts)
+  return findApp(opts)
     .then(getStyleSheets)
     .then(function(styles) {
       var promises = styles.map(updateStyleSheet(opts.manifestURL));
@@ -66,7 +66,7 @@ function getStyleSheets(actor) {
 if (require.main === module) {
   (function() {
 
-    reloadcssB2G('/Users/mozilla/Desktop/nicola/manifest.webapp', function(err, result){
+    reloadcss('/Users/mozilla/Desktop/nicola/manifest.webapp', function(err, result){
       console.log("Connected and disconnected", result);
     })
 

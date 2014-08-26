@@ -1,6 +1,6 @@
 {
-  "name": "moz-reloadcss-b2g",
-  "version": "0.1.0",
+  "name": "fxos-reloadcss",
+  "version": "0.0.4",
   "description": "Live-reload CSS in a FirefoxOS simulator, without reloading the app",
   "main": "index.js",
   "scripts": {
@@ -8,18 +8,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nicola/moz-reloadcss-b2g"
+    "url": "https://github.com/nicola/fxos-reloadcss"
   },
   "author": "Nicola Greco <me@nicola.io> (http://nicolagreco.com/)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nicola/moz-reloadcss-b2g/issues"
+    "url": "https://github.com/nicola/fxos-reloadcss/issues"
   },
-  "homepage": "https://github.com/nicola/moz-reloadcss-b2g",
+  "homepage": "https://github.com/nicola/fxos-reloadcss",
   "dependencies": {
-    "firefox-client": "^0.2.3",
-    "moz-findapp-b2g": "^0.1.0",
-    "moz-start-b2g": "^0.1.0",
+    "firefox-client": "^0.2.1",
+    "fxos-findapp": "0.0.5",
+    "fxos-start": "0.0.8",
     "q": "^1.0.1"
   }
 }
