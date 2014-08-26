@@ -11,15 +11,15 @@ $ npm install fxos-reloadcss
 ## Usage
 
 ```javascript
-var reloadcssB2G = require('fxos-reloadcss');
+var reloadcss = require('fxos-reloadcss');
 
-reloadcssB2G('manifest.webapp', function(err, result) {
+reloadcss('manifest.webapp', function(err, result) {
   console.log('done!');
 });
 
-reloadcssB2G('manifest.webapp').then(nextPromise);
+reloadcss('manifest.webapp').then(nextPromise);
 
-reloadcssB2G({
+reloadcss({
   manifestURL: 'manifest.webapp',
   port:8004
 }, function(err, result) {
