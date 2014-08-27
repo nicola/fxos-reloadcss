@@ -62,13 +62,3 @@ function getStyleSheets(actor) {
   var styleSheets = actor.StyleSheets;
   return Q.ninvoke(styleSheets, 'getStyleSheets');
 }
-
-if (require.main === module) {
-  (function() {
-
-    reloadcss('/Users/mozilla/Desktop/nicola/manifest.webapp', function(err, result){
-      console.log("Connected and disconnected", result);
-    })
-
-  })();
-}
