@@ -1,6 +1,6 @@
 {
   "name": "fxos-reloadcss",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Live-reload CSS in a FirefoxOS simulator, without reloading the app",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,10 @@
     "firefox-client": "^0.2.3",
     "fxos-findapp": "^0.1.1",
     "fxos-start": "^0.1.0",
+    "nomnom": "^1.8.0",
     "q": "^1.0.1"
+  },
+  "bin": {
+    "fxos-reloadcss": "./bin/fxos-reloadcss.js"
   }
 }
