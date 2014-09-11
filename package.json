@@ -25,5 +25,12 @@
   },
   "bin": {
     "fxos-reloadcss": "./bin/fxos-reloadcss.js"
-  }
+  },
+  "keywords": [
+    "b2g",
+    "firefoxos",
+    "fxos",
+    "live-reload",
+    "css"
+  ]
 }

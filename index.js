@@ -12,6 +12,7 @@ function reloadcss () {
   var opts = {};
   var callback;
 
+  /* Overloading */
   // reloadcss(manifestURL [, client])
   if (typeof args[0] == 'string') {
     opts.manifestURL = args[0];
@@ -29,6 +30,9 @@ function reloadcss () {
     callback = args[args.length-1];
   }
 
+  /* Options */
+  var keepAlive = opts.client ? true : false;
+
   return findApp(opts)
     .then(getStyleSheets)
     .then(function(styles) {
@@ -36,6 +40,10 @@ function reloadcss () {
       return Q.all(promises);
     })
     .then(function(styles) {
+      if (!keepAlive) {
+        console.log("reloadcss disconnecting");
+        opts.client.disconnect();
+      }
       if (callback) callback(null, styles);
       return styles;
     });
