@@ -7,31 +7,8 @@ var path = require('path');
 
 module.exports = reloadcss;
 
-function reloadcss () {
-  var args = arguments;
-  var opts = {};
-  var callback;
-
-  /* Overloading */
-  // reloadcss(manifestURL [, client])
-  if (typeof args[0] == 'string') {
-    opts.manifestURL = args[0];
-    if (args[1] instanceof FirefoxClient) {
-      opts.client = args[1];
-    }
-  }
-  // reloadcss({manifestURL: manifest_path[, client: firefox_client]})
-  else if (typeof args[0] == 'object') {
-    opts = args[0];
-  }
-
-  // reloadcss(..., callback)
-  if (typeof args[args.length-1] == 'function') {
-    callback = args[args.length-1];
-  }
-
-  /* Options */
-  var keepAlive = opts.client ? true : false;
+function reloadcss (opts, callback) {
+  opts = opts || {};
 
   return findApp(opts)
     .then(getStyleSheets)
@@ -40,10 +17,6 @@ function reloadcss () {
       return Q.all(promises);
     })
     .then(function(styles) {
-      if (!keepAlive) {
-        console.log("reloadcss disconnecting");
-        opts.client.disconnect();
-      }
       if (callback) callback(null, styles);
       return styles;
     });
