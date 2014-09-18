@@ -31,10 +31,11 @@ if (!opts.manifestURL) {
   opts.manifestURL = path.resolve('./manifest.webapp');
 }
 
-reloadCss(opts, function(err, result) {
+reloadCss(opts, function(err, result, done) {
   if (err) {
     console.log("Error", err);
   } else {
     console.log("Css reloaded:", result.value);
   }
+  done()
 });
