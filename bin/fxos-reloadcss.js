@@ -37,5 +37,5 @@ reloadCss(opts, function(err, result, done) {
   } else {
     console.log("Css reloaded:", result.value);
   }
-  done()
+  done();
 });
