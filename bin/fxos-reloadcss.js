@@ -3,7 +3,7 @@
 var fs = require('fs');
 var path = require('path');
 var Q = require('q');
-var reloadCss = require('../index');
+var reloadCss = require('../command');
 
 var opts = require("nomnom")
   .option('manifestURL', {
@@ -31,11 +31,10 @@ if (!opts.manifestURL) {
   opts.manifestURL = path.resolve('./manifest.webapp');
 }
 
-reloadCss(opts)
-  .then(function(app) {
-    console.log("Css reloaded:", app);
-  })
-  .catch(function(err) {
+reloadCss(opts, function(err, result) {
+  if (err) {
     console.log("Error", err);
-    return;
-  });
+  } else {
+    console.log("Css reloaded:", result.value);
+  }
+});
