@@ -13,7 +13,6 @@ var opts = require("nomnom")
   })
   .option('port', {
     abbr: 'p',
-    flag: true,
     help: 'Port of FirefoxOS'
   })
   .option('version', {
