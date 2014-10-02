@@ -19,6 +19,6 @@ function ReloadCSSCommand(opts, beforeCallback, afterCallback) {
         sim.client.disconnect();
         if (afterCallback) afterCallback(err, stylesheets);
       });
-    }).done();
-  }).done();
+    });
+  });
 }
