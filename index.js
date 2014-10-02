@@ -16,10 +16,7 @@ function reloadcss (opts, callback) {
       var promises = styles.map(updateStyleSheet(opts.manifestURL));
       return Q.all(promises);
     })
-    .then(function(styles) {
-      if (callback) callback(null, styles);
-      return styles;
-    });
+    .nodeify(callback);
 }
 
 function updateStyleSheet (localManifest) {
